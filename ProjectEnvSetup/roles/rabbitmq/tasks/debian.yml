@@ -1,0 +1,50 @@
+---
+  - name: ensure python-software-properties is installed
+    apt: pkg=software-properties-common state=present
+    become: true
+    become_method: sudo
+    tags: ["gdpr","rabbitmq"]
+
+  - name: Install tools for adding PPA repositories
+    become: true
+    become_method: sudo
+    apt: name='{{ item }}' state=latest
+    with_items:
+      - software-properties-common
+    tags: ["gdpr","rabbitmq"]
+
+  - name: add rabbitmq repository key
+    apt_key: >-
+      url=http://www.rabbitmq.com/rabbitmq-signing-key-public.asc
+      state=present
+    become: true
+    become_method: sudo
+    tags: ["gdpr","rabbitmq"]
+
+  - name: add rabbitmq repository
+    copy: src=rabbitmq.list dest=/etc/apt/sources.list.d/ backup=yes
+    become: true
+    become_method: sudo
+    tags: ["gdpr","rabbitmq"]
+
+  - name: install rabbitmq server
+    apt:
+      name: rabbitmq-server
+      force: yes
+    become: true
+    become_method: sudo
+    tags: ["gdpr","rabbitmq"]
+
+  - name: enable rabbitmq plugins
+    rabbitmq_plugin: names=rabbitmq_management,rabbitmq_tracing,rabbitmq_federation state=enabled
+    notify:
+    - restart rabbitmq
+    become: true
+    become_method: sudo
+    tags: ["gdpr","rabbitmq"]
+
+  - name: ensure vhost /test is present
+    rabbitmq_vhost: name=/test state=present
+    become: true
+    become_method: sudo
+    tags: ["gdpr","rabbitmq"]

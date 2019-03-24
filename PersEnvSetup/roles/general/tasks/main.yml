@@ -1,0 +1,29 @@
+---
+#  - name: Update and upgrade apt packages
+#    shell: apt-get upgrade
+#    become: true
+#    become_method: sudo
+#    tags: ["general","gdpr"]
+#
+#  - name: Update and upgrade apt packages
+#    shell: apt-get update
+#    become: true
+#    become_method: sudo
+#    tags: ["general","gdpr"]
+
+  - name: Update and upgrade apt packages
+    apt:
+      upgrade: yes
+      update_cache: yes
+    become: true
+    become_method: sudo
+    ignore_errors: True
+    tags: ["general","gdpr"]
+
+  - name: Update and upgrade dist
+    apt:
+      upgrade: dist
+    become: true
+    become_method: sudo
+    ignore_errors: True
+    tags: ["general","gdpr"]

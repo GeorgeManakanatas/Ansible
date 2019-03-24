@@ -1,0 +1,5 @@
+---
+  aptcachetime: 3600
+  elasticsearch:
+    start: false
+    service_enabled: no

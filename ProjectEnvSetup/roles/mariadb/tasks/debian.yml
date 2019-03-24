@@ -1,0 +1,91 @@
+---
+  - name: Check if mariadb-server is installed
+    environment:
+      LC_MESSAGES: 'C'
+    shell: dpkg-query -W -f='${Version}\n' 'mariadb-server' | grep -v '^$'
+    register: mariadb_server_register_version
+    always_run: True
+    changed_when: False
+    failed_when: False
+    tags: ["packages","mariadb"]
+
+  - name: Install MySQL
+    apt:
+      name: '{{ item }}'
+      state: latest
+      update_cache: yes
+    with_items:
+      - mysql-python
+      - mysql
+      - mysql-server
+    tags: ["packages","mariadb"]
+
+  - name: Configure database client on first install
+    template:
+      src: 'etc/mysql/conf.d/client.cnf.j2'
+      dest: '/etc/mysql/conf.d/client.cnf'
+      owner: 'root'
+      group: 'root'
+      mode: '0644'
+    when: (mariadb_server_register_version | d() and not mariadb_server_register_version.stdout)
+    tags: ["packages","mariadb"]
+
+  - name: Configure the database server
+    template:
+      src: 'etc/mysql/conf.d/server.cnf.j2'
+      dest: '/etc/mysql/conf.d/server.cnf'
+      owner: 'root'
+      group: 'root'
+      mode: '0644'
+    register: mariadb_register_config_change
+    tags: ["packages","mariadb"]
+
+  - name: Restart the database server on first install
+    service:
+      name: 'mysql'
+      state: 'restarted'
+    when: ((mariadb_server_register_version | d() and not mariadb_server_register_version.stdout) and (mariadb_server_register_install_status | d() and mariadb_server_register_install_status | changed))
+    tags: ["packages","mariadb"]
+
+  - name: Drop unnecessary root accounts
+    mysql_user:
+      name: 'root'
+      host: '{{ item }}'
+      state: 'absent'
+    with_flattened:
+      - ['127.0.0.1', '::1']
+    when: item | d()
+    tags: ["packages","mariadb"]
+
+  - name: Update database root password
+    mysql_user:
+      name: 'root'
+      host: 'localhost'
+      password: '{{ mariadb_mysqld_root_password }}'
+    tags: ["packages","mariadb"]
+
+  - name: Create /root/.my.cnf file with root credentials
+    template:
+      src: 'root/my.cnf.j2'
+      dest: '/root/.my.cnf'
+      owner: 'root'
+      group: 'root'
+      mode: '0600'
+    tags: ["packages","mariadb"]
+
+  - name: Delete anonymous database user
+    mysql_user:
+      user: ''
+      host: '{{ item }}'
+      state: 'absent'
+    with_items:
+      - 'localhost'
+    tags: ["packages","mariadb"]
+
+  - name: Remove test database on first install
+    mysql_db:
+      db: 'test'
+      state: 'absent'
+    when: ((mariadb_server_register_version | d() and not mariadb_server_register_version.stdout) and (mariadb_server_register_install_status | d() and mariadb_server_register_install_status | changed))
+    tags: ["packages","mariadb"]
+

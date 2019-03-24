@@ -1,0 +1,18 @@
+---
+  - name: Download atom for Debian OS family
+    get_url: url={{ atom_url_deb }} dest={{atom_tmp_deb}}
+    tags: ["packages","atom"]
+
+  - name: Install atom for Debian OS family
+    apt: 
+      deb: "{{atom_tmp_deb}}"
+      force: yes
+    become: true
+    become_method: sudo
+    tags: ["packages","atom"]
+
+  - name: Install atom packages
+    script: atompackages.sh
+    become: true
+    become_method: sudo
+    tags: ["packages","atom"]

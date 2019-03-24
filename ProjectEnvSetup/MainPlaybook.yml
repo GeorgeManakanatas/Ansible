@@ -1,0 +1,15 @@
+---
+  - hosts: 127.0.0.1
+    connection: local
+    roles:
+      - role: general
+
+  - hosts: 127.0.0.1
+    connection: local
+    roles:
+      - role: java-openjdk
+      - role: atom
+      - role: docker
+      - role: elasticsearch
+      - role: rabbitmq
+      - role: python

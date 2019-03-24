@@ -1,0 +1,4 @@
+---
+  aptcachetime: 3600
+  nodejs:
+    repository: "https://deb.nodesource.com/node_6.x"
