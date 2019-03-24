@@ -1,0 +1,26 @@
+---
+  - name: "Create environments folder"
+    file: 
+      path: python_envs_home
+      state: directory
+    tags: ["packages","python"]
+
+  - name: "Create individual environment folder"
+    file: 
+      path: "{{python_envs_home}}/{{item.name}}" 
+      state: directory
+    with_items:
+      - { name: ppdm, git: "https://github.com/GeorgeManakanatas/PPDM", path: ppdm }
+      - { name: djangoblog, git: "https://github.com/GeorgeManakanatas/PPDM", path: djangoblog }
+      - { name: imagerecproject, git: "https://github.com/GeorgeManakanatas/ImageRecProject", path: imagerecproject }
+    tags: ["packages","python"]
+
+  - name: "Pull the git repositories"
+    git: 
+      repo: "{{item.git}}"
+      dest: "{{python_envs_home}}/{{item.name}}"
+    with_items:
+      - { name: ppdm, git: "https://github.com/GeorgeManakanatas/PPDM", path: ppdm }
+      - { name: djangoblog, git: "https://github.com/GeorgeManakanatas/PPDM", path: djangoblog }
+      - { name: imagerecproject, git: "https://github.com/GeorgeManakanatas/ImageRecProject", path: imagerecproject }
+    tags: ["packages","python"]

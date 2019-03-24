@@ -1,0 +1,36 @@
+---
+  - name: "Create environments folder"
+    file:
+      path: python_envs_home
+      state: directory
+      mode: 0775
+      recurse: yes
+    become: true
+    become_method: sudo
+    tags: ["packages","python"]
+
+  - name: "Create individual environment folder"
+    file:
+      path: "{{python_envs_home}}/{{item.name}}"
+      state: directory
+      mode: 0775
+      recurse: yes
+    become: true
+    become_method: sudo
+    with_items:
+      - { name: ppdm, git: "https://github.com/GeorgeManakanatas/PPDM", path: ppdm }
+      - { name: djangoblog, git: "https://github.com/GeorgeManakanatas/PPDM", path: djangoblog }
+      - { name: imagerecproject, git: "https://github.com/GeorgeManakanatas/ImageRecProject", path: imagerecproject }
+    tags: ["packages","python"]
+
+  - name: "Pull the git repositories"
+    git:
+      repo: "{{item.git}}"
+      dest: "{{python_envs_home}}/{{item.name}}"
+    become: true
+    become_method: sudo
+    with_items:
+      - { name: ppdm, git: "https://github.com/GeorgeManakanatas/PPDM", path: ppdm }
+      - { name: djangoblog, git: "https://github.com/GeorgeManakanatas/PPDM", path: djangoblog }
+      - { name: imagerecproject, git: "https://github.com/GeorgeManakanatas/ImageRecProject", path: imagerecproject }
+    tags: ["packages","python"]
