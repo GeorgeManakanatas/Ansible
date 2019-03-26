@@ -6,7 +6,7 @@
     become: true
     become_method: sudo
     ignore_errors: True
-    tags: ["nodejs"]
+    tags: ["node","prerequisites"]
 
   - name: Set up the Nodesource RPM variable for Node.js == 0.10.
     set_fact:
@@ -15,7 +15,7 @@
     become: true
     become_method: sudo
     ignore_errors: True
-    tags: ["nodejs"]
+    tags: ["node","prerequisites"]
 
   - name: Import Nodesource RPM key (CentOS < 7).
     rpm_key:
@@ -25,7 +25,7 @@
     become: true
     become_method: sudo
     ignore_errors: True
-    tags: ["nodejs"]
+    tags: ["node","prerequisites"]
 
   - name: Import Nodesource RPM key (CentOS 7+)..
     rpm_key:
@@ -35,7 +35,7 @@
     become: true
     become_method: sudo
     ignore_errors: True
-    tags: ["nodejs"]
+    tags: ["node","prerequisites"]
 
   - name: Add Nodesource repositories for Node.js (CentOS < 7).
     yum:
@@ -45,7 +45,7 @@
     become: true
     become_method: sudo
     ignore_errors: True
-    tags: ["nodejs"]
+    tags: ["node","prerequisites"]
 
   - name: Add Nodesource repositories for Node.js (CentOS 7+).
     yum:
@@ -55,11 +55,11 @@
     become: true
     become_method: sudo
     ignore_errors: True
-    tags: ["nodejs"]
+    tags: ["node","prerequisites"]
 
   - name: Ensure Node.js and npm are installed.
     yum: "name=nodejs-{{ nodejs_version|regex_replace('x', '') }}* state=present enablerepo='nodesource'"
     become: true
     become_method: sudo
     ignore_errors: True
-    tags: ["nodejs"]
+    tags: ["node","prerequisites"]

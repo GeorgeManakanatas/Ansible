@@ -7,10 +7,12 @@
   - hosts: 127.0.0.1
     connection: local
     roles:
-      - role: get_solid
+      - role: nodejs
+      - role: python
+      - role: docker
 
   - hosts: 127.0.0.1
     connection: local
     roles:
-      - role: nodejs
-      - role: docker
+      - role: get_solid
+      - role: build_solid_image

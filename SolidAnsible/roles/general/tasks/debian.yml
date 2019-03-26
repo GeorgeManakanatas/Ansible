@@ -6,7 +6,7 @@
     become: true
     become_method: sudo
     ignore_errors: True
-    tags: ["general","gdpr"]
+    tags: ["general","prerequisites"]
 
   - name: Update and upgrade dist
     apt:
@@ -14,4 +14,4 @@
     become: true
     become_method: sudo
     ignore_errors: True
-    tags: ["general","gdpr"]
+    tags: ["general","prerequisites"]

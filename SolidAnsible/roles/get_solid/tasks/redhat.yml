@@ -7,7 +7,7 @@
       recurse: yes
     become: true
     become_method: sudo
-    tags: ["solid"]
+    tags: ["solid","get_solid"]
 
   - name: "Pull solid from git"
     git:
@@ -15,4 +15,4 @@
       dest: "{{ solid_folder_path_redhat }}"
     become: true
     become_method: sudo
-    tags: ["solid"]
+    tags: ["solid","get_solid"]
