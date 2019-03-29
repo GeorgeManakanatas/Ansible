@@ -1,6 +1,9 @@
 ---
   - name: Ensure apt-transport-https is installed.
     apt: name=apt-transport-https state=present
+    become: true
+    become_method: sudo
+    tags: ["node","prerequisites"]
 
   - name: Add Nodesource apt key.
     apt_key:

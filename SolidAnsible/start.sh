@@ -22,3 +22,4 @@ if ! command -v ansible >/dev/null; then
 fi
 echo "Running playbook."
 ansible-playbook -K MainPlaybook.yml
+#ansible-playbook -K MainPlaybook.yml --tags "solid_image"

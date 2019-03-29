@@ -16,3 +16,23 @@
     become: true
     become_method: sudo
     tags: ["solid","get_solid"]
+    
+  - name: "Replace config.json-default file"
+    copy:
+      src: config.json-default
+      dest: /home/georgemanakanatas/Solid/SolidAnsible/test/
+      owner: root
+      group: root
+    become: true
+    become_method: sudo
+    tags: ["solid","get_solid"]
+ 
+  - name: "replace Dockerfile"
+    copy:
+      src: Dockerfile
+      dest: /home/georgemanakanatas/Solid/SolidAnsible/test/
+      owner: root
+      group: root
+    become: true
+    become_method: sudo
+    tags: ["solid","get_solid"]
