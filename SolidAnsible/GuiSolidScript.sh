@@ -52,13 +52,8 @@ stop_container(){
 }
 # build image
 build_solid_server_image(){
-  # # fixing multiuser in config file
-  # sudo sed -i -e 's/"multiuser": true,/"multiuser": false,/g' config.json-default
-  # # fixing cocker CMD line
-  # sudo sed -i -e 's/CMD npm run solid start/  /g' Dockerfile
-  # sudo echo "CMD /usr/src/app/bin/solid-test start" >> Dockerfile
-  # running the new dockerfile
-  sudo docker build --no-cache --tag node_solid_server .
+  ansible-playbook -K MainPlaybook.yml --tags "get_solid"
+  ansible-playbook -K MainPlaybook.yml --tags "solid_image"
 }
 # create container
 

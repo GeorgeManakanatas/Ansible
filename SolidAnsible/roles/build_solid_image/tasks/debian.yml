@@ -7,9 +7,3 @@
     become: true
     become_method: sudo
     tags: ["solid","solid_image"]
-
-  - name: "Starting GUI"
-    script: GuiSolidScript.sh
-    become: true
-    become_method: sudo
-    tags: ["solid","solid_image"]
