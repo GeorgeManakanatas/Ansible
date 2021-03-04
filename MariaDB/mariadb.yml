@@ -21,13 +21,9 @@
 
       - name: Install MySQL
         apt:
-          name: '{{ item }}'
+          name: ['mysql-python','mysql','mysql-server']
           state: latest
           update_cache: yes
-        with_items:
-          - mysql-python
-          - mysql
-          - mysql-server
 
       - name: Configure database client on first install
         template:

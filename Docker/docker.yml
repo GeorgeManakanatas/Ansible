@@ -4,12 +4,9 @@
   sudo: yes
   tasks:
   - name:    Install prerequisites
-    apt:     name={{item}} update_cache=yes
-    with_items:
-     - apt-transport-https
-     - ca-certificates
-     - curl
-     - software-properties-common
+    apt:     
+      name: ['apt-transport-https','ca-certificates', 'curl', 'software-properties-common']
+      update_cache: yes
   - name:    Add Docker GPG key
     apt_key: url=https://download.docker.com/linux/ubuntu/gpg
   - name:    Add Docker APT repository
