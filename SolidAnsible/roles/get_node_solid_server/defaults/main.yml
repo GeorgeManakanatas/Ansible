@@ -4,4 +4,4 @@
   node_solid_server_url: "https://github.com/solid/node-solid-server.git"
   community_solid_server_folder_path_debian: "/community/temp"
   community_solid_server_folder_path_redhat: "/community/temp"
-  community_solid_server_url: "https://github.com/solid/node-solid-server.git"
+  community_solid_server_url: "https://github.com/solid/community-server.git"

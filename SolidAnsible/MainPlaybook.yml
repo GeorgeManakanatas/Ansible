@@ -14,5 +14,6 @@
   - hosts: 127.0.0.1
     connection: local
     roles:
-      - role: get_solid
+      - role: get_community_solid_server
+      - role: get_node_solid_server
       - role: build_solid_image

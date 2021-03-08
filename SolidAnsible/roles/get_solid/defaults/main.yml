@@ -1,4 +1,0 @@
----
-  solid_folder_path_debian: "/home/georgemanakanatas/Solid/SolidAnsible/test"
-  solid_folder_path_redhat: "/home/george.manakanatas/Solid/SolidAnsible/test"
-  solid_server_url: "https://github.com/solid/node-solid-server.git"

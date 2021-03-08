@@ -1,8 +1,17 @@
 ---
-  - name: "Build solid server image"
+  - name: "Build Node solid server image"
     docker_image:
       name: "node_solid_server"
-      path: "/home/georgemanakanatas/Solid/SolidAnsible/test"
+      path: "{{ playbook_dir }}{{ node_solid_server_folder_path_debian }}"
+      state: present
+    become: true
+    become_method: sudo
+    tags: ["solid","solid_image"]
+
+  - name: "Build Community solid server image"
+    docker_image:
+      name: "community_solid_server"
+      path: "{{ playbook_dir }}{{ community_solid_server_folder_path_debian }}"
       state: present
     become: true
     become_method: sudo

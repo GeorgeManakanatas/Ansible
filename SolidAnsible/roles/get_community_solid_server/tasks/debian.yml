@@ -1,0 +1,26 @@
+---
+  - name: "Check if Community Solid folder exists"
+    stat:
+      path: "{{ playbook_dir }}{{ community_solid_server_folder_path_debian }}"
+    register: solid_server_code
+    tags: ["solid","get_community_solid_server"]
+  
+  - name: "Create Community Solid folder"
+    file:
+      path: "{{ playbook_dir }}{{ community_solid_server_folder_path_debian }}"
+      state: directory
+      mode: 0775
+      recurse: yes
+    when: solid_server_code.stat.exists == False
+    become: true
+    become_method: sudo
+    tags: ["solid","get_community_solid_server"]
+
+  - name: "Pull Community solid from git"
+    git:
+      repo: "{{ community_solid_server_url }}"
+      dest: "{{ playbook_dir }}{{ community_solid_server_folder_path_debian }}"
+    when: solid_server_code.stat.exists == False
+    become: true
+    become_method: sudo
+    tags: ["solid","get_community_solid_server"]
